@@ -32,6 +32,12 @@ class JointSubsystem(Subsystem):
 
         self.motor.setIdleMode(CANSparkMax.IdleMode.kBrake)
         self.motor.burnFlash()
+        
+        self.setpoint = 0.0
 
     def go_to_setpoint(self, setpoint):
+        self.setpoint = setpoint
         self.PID_controller.setReference(setpoint, CANSparkLowLevel.ControlType.kPosition)
+        
+    def is_at_setpoint(self):
+        return abs(self.setpoint - self.encoder.getPosition()) <= JointConstants.PIDEpsilon

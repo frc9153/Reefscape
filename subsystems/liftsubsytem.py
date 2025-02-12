@@ -44,11 +44,17 @@ class LiftSubsystem(Subsystem):
         self.motor_two.setIdleMode(CANSparkMax.IdleMode.kBrake)
         self.motor_two.burnFlash()
 
+        self.setpoint = 0.0
+
     def go_to_setpoint(self, setpoint):
+        self.setpoint = setpoint
         self.PID_controller.setReference(setpoint, CANSparkLowLevel.ControlType.kPosition)
 
     def set_motor_power(self, power):
         self.motor_one.set(power)
+
+    def is_at_setpoint(self):
+        return abs(self.setpoint - self.encoder.getPosition()) <= LiftConstants.PIDEpsilon
 
     def periodic(self):
         pass

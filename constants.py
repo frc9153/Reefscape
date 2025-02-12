@@ -144,14 +144,14 @@ class LiftConstants:
     motor_one = 9
     motor_two = 10
 
-    max_speed_motor = .20
+    max_speed_motor = .25
 
     # pls tune! :3 
     setpoint_store = 0.050
     setpoint_intake = 0.100
     setpoint_l1 = 0.050
-    setpoint_l2 = 0.100
-    setpoint_l3 = 0.150
+    setpoint_l2 = 0.075
+    setpoint_l3 = 0.155
     setpoint_l4 = 0.250
 
     P = 5
@@ -160,23 +160,26 @@ class LiftConstants:
     # en.wikipedia.org/wiki/Iz*One
     i_zone = 0
     Ff = 0
+    PIDEpsilon = 0.02
 
 class JointConstants:
     motor = 11
 
-    max_speed_motor = 1.00
+    max_speed_motor = 0.2
 
     # TUNE OR ELSE!!!!!!!!!
     setpoint_intake = 0.600
-    setpoint_scorehigh = 0.330
-    setpoint_scoremid = 0.470
+    setpoint_scorel4 = 0.330
+    setpoint_scorel3 = 0.445
+    setpoint_scorel2 = 0.390
     setpoint_scoretrough = 0 # UNIMPLEMENTED OPCODE
 
-    P = 100
+    P = 5
     I = 0
     D = 0
     i_zone = 0
     Ff = 0
+    PIDEpsilon = 0.02
 
 class AlgaeConstants:
     motor_raise = 12
@@ -215,6 +218,13 @@ class GrabberConstants:
     i_zone = 0
     Ff = 0
 
-    hold_speed = 0.2
+    hold_speed = 0.6
     release_speed = -0.1
     stop_speed = 0.0
+    
+class RollerConstants:
+    motor_id = 15
+
+    intake_speed = -0.3
+    outake_speed = 0.6
+    stoptake_speed = 0

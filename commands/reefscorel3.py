@@ -8,7 +8,7 @@ from commands.lifttosetpoint import LiftToSetpoint
 from commands.jointtosetpoint import JointToSetpoint
 from rev import CANSparkMax, SparkMaxAbsoluteEncoder, CANSparkLowLevel
 
-class ReefScoreL4(commands2.SequentialCommandGroup):
+class ReefScoreL3(commands2.SequentialCommandGroup):
     def __init__(self, liftsub, jointsub, grabbersub):
         super().__init__()
 
@@ -60,8 +60,8 @@ class ReefScoreL4(commands2.SequentialCommandGroup):
 
         # Cannot schedule same command twice
         self.addCommands(JointToSetpoint(self.jointsub, JointConstants.setpoint_intake),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_l4),
-                        JointToSetpoint(self.jointsub, JointConstants.setpoint_scorel4),
+                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_l3),
+                        JointToSetpoint(self.jointsub, JointConstants.setpoint_scorel3),
                         self.grabber_release,
                         JointToSetpoint(self.jointsub, JointConstants.setpoint_intake),
                         LiftToSetpoint(self.liftsub, LiftConstants.setpoint_store)

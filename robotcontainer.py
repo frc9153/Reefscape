@@ -9,14 +9,19 @@ from wpimath.controller import PIDController, ProfiledPIDControllerRadians
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 
-from constants import AutoConstants, DriveConstants, LiftConstants, OIConstants, JointConstants, AlgaeConstants, GrabberConstants
+from constants import AutoConstants, DriveConstants, LiftConstants, OIConstants, JointConstants, AlgaeConstants, GrabberConstants, RollerConstants
 from subsystems.drivesubsystem import DriveSubsystem
 from subsystems.liftsubsytem import LiftSubsystem
 # from subsystems.algaesubsystem import AlgaeSubsystem
 from subsystems.jointsubsystem import JointSubsystem
 from subsystems.grabbersubsystem import GrabberSubsystem
+from subsystems.rollersubsystem import RollerSubsystem
 from commands.wowimfull import WowImFull
-# from commands.reefscorel4 import ReefScoreL4
+from commands.reefscorel4 import ReefScoreL4
+from commands.reefscorel3 import ReefScoreL3
+from commands.reefscorel2 import ReefScoreL2
+from commands.lifttosetpoint import LiftToSetpoint
+from commands.jointtosetpoint import JointToSetpoint
 
 
 class RobotContainer:
@@ -34,13 +39,14 @@ class RobotContainer:
         self.robot_joint_move = JointSubsystem()
         # self.robot_algae_score = AlgaeSubsystem()
         self.robot_grabber = GrabberSubsystem()
+        self.robot_roller = RollerSubsystem()
 
-        self.lift_intake = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_intake
-            ),
-            self.robot_lift_please
-        )
+        # self.lift_intake = commands2.cmd.runOnce(
+        #     lambda: self.robot_lift_please.go_to_setpoint(
+        #         LiftConstants.setpoint_intake
+        #     ),
+        #     self.robot_lift_please
+        # )
 
         self.lift_store = commands2.cmd.runOnce(
             lambda: self.robot_lift_please.go_to_setpoint(
@@ -49,33 +55,33 @@ class RobotContainer:
             self.robot_lift_please
         )
 
-        self.lift_l1 = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_l1
-            ),
-            self.robot_lift_please
-        )
+        # self.lift_l1 = commands2.cmd.runOnce(
+        #     lambda: self.robot_lift_please.go_to_setpoint(
+        #         LiftConstants.setpoint_l1
+        #     ),
+        #     self.robot_lift_please
+        # )
 
-        self.lift_l2 = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_l2
-            ),
-            self.robot_lift_please
-        )
+        # self.lift_l2 = commands2.cmd.runOnce(
+        #     lambda: self.robot_lift_please.go_to_setpoint(
+        #         LiftConstants.setpoint_l2
+        #     ),
+        #     self.robot_lift_please
+        # )
         
-        self.lift_l3 = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_l3
-            ),
-            self.robot_lift_please
-        )
+        # self.lift_l3 = commands2.cmd.runOnce(
+        #     lambda: self.robot_lift_please.go_to_setpoint(
+        #         LiftConstants.setpoint_l3
+        #     ),
+        #     self.robot_lift_please
+        # )
 
-        self.lift_l4 = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_l4
-            ),
-            self.robot_lift_please
-        )
+        # self.lift_l4 = commands2.cmd.runOnce(
+        #     lambda: self.robot_lift_please.go_to_setpoint(
+        #         LiftConstants.setpoint_l4
+        #     ),
+        #     self.robot_lift_please
+        # )
 
         self.joint_intake = commands2.cmd.runOnce(
             lambda: self.robot_joint_move.go_to_setpoint(
@@ -86,21 +92,21 @@ class RobotContainer:
 
         self.joint_scorehigh = commands2.cmd.runOnce(
             lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scorehigh
+                JointConstants.setpoint_scorel4
             ),
             self.robot_joint_move
         )
 
         self.joint_scoremid = commands2.cmd.runOnce(
             lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scoremid
+                JointConstants.setpoint_scorel3
             ),
             self.robot_joint_move
         )
 
         self.joint_scoretrough = commands2.cmd.runOnce(
             lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scoretrough
+                JointConstants.setpoint_scorel2
             ),
             self.robot_joint_move
         )
@@ -159,6 +165,27 @@ class RobotContainer:
                 GrabberConstants.stop_speed
             ),
             self.robot_grabber
+        )
+
+        self.roller_grab = commands2.cmd.runOnce(
+            lambda: self.robot_roller.set_power(
+                RollerConstants.intake_speed
+            ),
+            self.robot_roller
+        )
+
+        self.roller_release = commands2.cmd.runOnce(
+            lambda: self.robot_roller.set_power(
+                RollerConstants.outake_speed
+            ),
+            self.robot_roller
+        )
+
+        self.roller_stop = commands2.cmd.runOnce(
+            lambda: self.robot_roller.set_power(
+                RollerConstants.stoptake_speed
+            ),
+            self.robot_roller
         )
 
         self.grabber_full_release = self.grabber_release.andThen(commands2.WaitCommand(0.1)).andThen(self.grabber_stop)
@@ -220,10 +247,10 @@ class RobotContainer:
         
         # One time action--much simpler.
         # replace Y with the button you want. the thing passed to onTrue is a Command.
-        self.driverController.a().onTrue(self.lift_l1)
-        self.driverController.b().onTrue(self.lift_l2)
-        self.driverController.x().onTrue(self.lift_l3)
-        # self.driverController.y().onTrue(ReefScoreL4(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
+        self.driverController.a().onTrue(self.lift_store)
+        self.driverController.b().onTrue(ReefScoreL2(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
+        self.driverController.x().onTrue(ReefScoreL3(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
+        self.driverController.y().onTrue(ReefScoreL4(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
 
         # self.driverController.a().onTrue(self.algae_down)
         # self.driverController.b().onTrue(self.algae_up)
@@ -235,6 +262,11 @@ class RobotContainer:
         self.driverController.rightBumper().onTrue(self.joint_scorehigh)
         self.driverController.leftTrigger().onTrue(self.grabber_grab)
         self.driverController.rightTrigger().onTrue(self.grabber_full_release)
+        
+        # self.driverController.a().onTrue(self.roller_grab)
+        # self.driverController.a().onFalse(self.roller_stop)
+        # self.driverController.b().onTrue(self.roller_release)
+        # self.driverController.b().onFalse(self.roller_stop)
 
         # reset_gyro = commands2.RunCommand(
         #     lambda: self.robotDrive.gyro.reset(),
