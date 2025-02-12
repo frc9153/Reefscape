@@ -228,3 +228,6 @@ class RollerConstants:
     intake_speed = -0.3
     outake_speed = 0.6
     stoptake_speed = 0
+
+class HeatSeekingMissileLockheedMartinConstants:
+    apriltag_position_threshold = 0.1

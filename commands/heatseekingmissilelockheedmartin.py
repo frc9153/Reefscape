@@ -1,22 +1,21 @@
+import math
 import commands2
 
-from constants import AlgaeConstants
-from subsystems.algaesubsystem import AlgaeSubsystem
-from rev import CANSparkMax, SparkMaxAbsoluteEncoder, CANSparkLowLevel
+from constants import HeatSeekingMissileLockheedMartinConstants
 from subsystems.drivesubsystem import DriveSubsystem
+import limelight
 
 class HeatSeekingMissileLockheedMartin(commands2.Command):
     def __init__(self, drive_sub: DriveSubsystem):
         super().__init__()
         self.drive_sub = drive_sub
     
-    def periodic(self) -> None:
-        pass
+    def execute(self) -> None:
+        self.drive_sub.drive(limelight.get_tx(), 0.0, 0.0, False, False)
     
     def isFinished(self):
-        return self.algaesub.encoder.getPosition() < AlgaeConstants.consumed_threshold
+        return math.abs(limelight.get_tx()) < HeatSeekingMissileLockheedMartinConstants.apriltag_position_threshold
     
     def end(self, interrupted):
-        self.algaesub.set_chomp_power(AlgaeConstants.stoptake_speed)
-        self.algaesub.motor_raise.setIdleMode(CANSparkMax.IdleMode.kBrake)
+        self.drive_sub.drive(0.0, 0.0, 0.0, False, False)
         
