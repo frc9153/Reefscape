@@ -8,7 +8,7 @@ from commands.lifttosetpoint import LiftToSetpoint
 from commands.jointtosetpoint import JointToSetpoint
 from commands.grabbertosetpoint import GrabberToSetpoint
 
-class ReefScoreL3(commands2.SequentialCommandGroup):
+class SourceIntake(commands2.SequentialCommandGroup):
     def __init__(self, liftsub, jointsub, grabbersub, robotDrive):
         super().__init__()
 
@@ -19,12 +19,9 @@ class ReefScoreL3(commands2.SequentialCommandGroup):
 
         # Cannot schedule same command twice
         self.addCommands(JointToSetpoint(self.jointsub, JointConstants.setpoint_store),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_l3),
-                        JointToSetpoint(self.jointsub, JointConstants.setpoint_scorel3),
-                        GrabberToSetpoint(self.grabbersub, GrabberConstants.setpoint_open, True),
-                        JointToSetpoint(self.jointsub, JointConstants.setpoint_store),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_store)
-        )
+                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_intake),
+                        GrabberToSetpoint(self.grabbersub, GrabberConstants.setpoint_intake, False),
+                        JointToSetpoint(self.jointsub, JointConstants.setpoint_intake))
     
     # DO NOT ADD ANY OF THE FOLLOWING:
     #       Initialize

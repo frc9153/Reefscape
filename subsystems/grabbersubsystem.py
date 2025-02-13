@@ -12,9 +12,7 @@ class GrabberSubsystem(Subsystem):
         )
 
         self.PID_controller = self.motor.getPIDController()
-        # self.encoder = self.motor.getAbsoluteEncoder(
-        #     SparkMaxAbsoluteEncoder.Type.kDutyCycle
-        #     )
+        self.encoder = self.motor.getEncoder() # Relative encoder
         
         self.PID_controller.setP(GrabberConstants.P)
         self.PID_controller.setI(GrabberConstants.I)
@@ -36,3 +34,9 @@ class GrabberSubsystem(Subsystem):
     
     def set_power(self, power):
         self.motor.set(power)
+    
+    def reset_encoder(self):
+        self.encoder.setPosition(0.0)
+        
+    def is_at_setpoint(self):
+        return abs(self.setpoint - self.encoder.getPosition()) <= GrabberConstants.PIDEpsilon

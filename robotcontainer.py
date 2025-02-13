@@ -12,7 +12,7 @@ from wpimath.trajectory import TrajectoryConfig, TrajectoryGenerator
 from constants import AutoConstants, DriveConstants, LiftConstants, OIConstants, JointConstants, AlgaeConstants, GrabberConstants, RollerConstants
 from subsystems.drivesubsystem import DriveSubsystem
 from subsystems.liftsubsytem import LiftSubsystem
-# from subsystems.algaesubsystem import AlgaeSubsystem
+from subsystems.algaesubsystem import AlgaeSubsystem
 from subsystems.jointsubsystem import JointSubsystem
 from subsystems.grabbersubsystem import GrabberSubsystem
 from subsystems.rollersubsystem import RollerSubsystem
@@ -20,8 +20,16 @@ from commands.wowimfull import WowImFull
 from commands.reefscorel4 import ReefScoreL4
 from commands.reefscorel3 import ReefScoreL3
 from commands.reefscorel2 import ReefScoreL2
+from commands.algaeintake import AlgaeIntake
+from commands.algaerestore import AlgaeRestore
 from commands.lifttosetpoint import LiftToSetpoint
 from commands.jointtosetpoint import JointToSetpoint
+from commands.grabbergrabreset import GrabberGrabReset
+from commands.grabbertosetpoint import GrabberToSetpoint
+from commands.sourceintake import SourceIntake
+from commands.sourcerestore import SourceRestore
+from commands.reefbludgeonhigh import ReefBludgeonHigh
+from commands.reefbludgeonlow import ReefBludgeonLow
 
 
 class RobotContainer:
@@ -34,138 +42,12 @@ class RobotContainer:
 
     def __init__(self) -> None:
         # The robot's subsystems
-        # self.robotDrive = DriveSubsystem()
+        self.robotDrive = DriveSubsystem()
         self.robot_lift_please = LiftSubsystem()
         self.robot_joint_move = JointSubsystem()
-        # self.robot_algae_score = AlgaeSubsystem()
+        self.robot_algae_score = AlgaeSubsystem()
         self.robot_grabber = GrabberSubsystem()
         self.robot_roller = RollerSubsystem()
-
-        # self.lift_intake = commands2.cmd.runOnce(
-        #     lambda: self.robot_lift_please.go_to_setpoint(
-        #         LiftConstants.setpoint_intake
-        #     ),
-        #     self.robot_lift_please
-        # )
-
-        self.lift_store = commands2.cmd.runOnce(
-            lambda: self.robot_lift_please.go_to_setpoint(
-                LiftConstants.setpoint_store
-            ),
-            self.robot_lift_please
-        )
-
-        # self.lift_l1 = commands2.cmd.runOnce(
-        #     lambda: self.robot_lift_please.go_to_setpoint(
-        #         LiftConstants.setpoint_l1
-        #     ),
-        #     self.robot_lift_please
-        # )
-
-        # self.lift_l2 = commands2.cmd.runOnce(
-        #     lambda: self.robot_lift_please.go_to_setpoint(
-        #         LiftConstants.setpoint_l2
-        #     ),
-        #     self.robot_lift_please
-        # )
-        
-        # self.lift_l3 = commands2.cmd.runOnce(
-        #     lambda: self.robot_lift_please.go_to_setpoint(
-        #         LiftConstants.setpoint_l3
-        #     ),
-        #     self.robot_lift_please
-        # )
-
-        # self.lift_l4 = commands2.cmd.runOnce(
-        #     lambda: self.robot_lift_please.go_to_setpoint(
-        #         LiftConstants.setpoint_l4
-        #     ),
-        #     self.robot_lift_please
-        # )
-
-        self.joint_intake = commands2.cmd.runOnce(
-            lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_intake
-            ),
-            self.robot_joint_move
-        )
-
-        self.joint_scorehigh = commands2.cmd.runOnce(
-            lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scorel4
-            ),
-            self.robot_joint_move
-        )
-
-        self.joint_scoremid = commands2.cmd.runOnce(
-            lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scorel3
-            ),
-            self.robot_joint_move
-        )
-
-        self.joint_scoretrough = commands2.cmd.runOnce(
-            lambda: self.robot_joint_move.go_to_setpoint(
-                JointConstants.setpoint_scorel2
-            ),
-            self.robot_joint_move
-        )
-
-        # self.algae_up = commands2.cmd.runOnce(
-        #     lambda: self.robot_algae_score.go_to_setpoint(
-        #         AlgaeConstants.setpoint_up
-        #     ),
-        #     self.robot_algae_score
-        # )
-
-        # self.algae_down = commands2.cmd.runOnce(
-        #     lambda: self.robot_algae_score.go_to_setpoint(
-        #         AlgaeConstants.setpoint_down
-        #     ),
-        #     self.robot_algae_score
-        # )
-
-        # self.algae_intake = commands2.cmd.runOnce(
-        #     lambda: self.robot_algae_score.set_chomp_power(
-        #         AlgaeConstants.intake_speed
-        #     ),
-        #     self.robot_algae_score
-        # )
-
-        # self.algae_outake = commands2.cmd.runOnce(
-        #     lambda: self.robot_algae_score.set_chomp_power(
-        #         AlgaeConstants.outake_speed
-        #     ),
-        #     self.robot_algae_score
-        # )
-
-        # self.algae_stoptake = commands2.cmd.runOnce(
-        #     lambda: self.robot_algae_score.set_chomp_power(
-        #         AlgaeConstants.stoptake_speed
-        #     ),
-        #     self.robot_algae_score
-        # )
-
-        self.grabber_grab = commands2.cmd.runOnce(
-            lambda: self.robot_grabber.set_power(
-                GrabberConstants.hold_speed
-            ),
-            self.robot_grabber
-        )
-
-        self.grabber_release = commands2.cmd.runOnce(
-            lambda: self.robot_grabber.set_power(
-                GrabberConstants.release_speed
-            ),
-            self.robot_grabber
-        )
-
-        self.grabber_stop = commands2.cmd.runOnce(
-            lambda: self.robot_grabber.set_power(
-                GrabberConstants.stop_speed
-            ),
-            self.robot_grabber
-        )
 
         self.roller_grab = commands2.cmd.runOnce(
             lambda: self.robot_roller.set_power(
@@ -188,7 +70,14 @@ class RobotContainer:
             self.robot_roller
         )
 
-        self.grabber_full_release = self.grabber_release.andThen(commands2.WaitCommand(0.1)).andThen(self.grabber_stop)
+        self.grabber_stop = commands2.cmd.runOnce(
+            lambda: self.robot_grabber.set_power(
+                GrabberConstants.stop_speed
+            ),
+            self.robot_grabber
+        )
+
+        # self.grabber_full_release = self.grabber_release.andThen(commands2.WaitCommand(0.1)).andThen(self.grabber_stop)
 
         # The driver's controller
         self.driverController = commands2.button.CommandXboxController(OIConstants.kDriverControllerPort)
@@ -247,21 +136,25 @@ class RobotContainer:
         
         # One time action--much simpler.
         # replace Y with the button you want. the thing passed to onTrue is a Command.
-        self.driverController.a().onTrue(self.lift_store)
-        self.driverController.b().onTrue(ReefScoreL2(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
-        self.driverController.x().onTrue(ReefScoreL3(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
-        self.driverController.y().onTrue(ReefScoreL4(self.robot_lift_please, self.robot_joint_move, self.robot_grabber))
+        self.driverController.a().onTrue(SourceIntake(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive))
+        self.driverController.a().onFalse(SourceRestore(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive))
+        self.driverController.b().whileTrue(ReefScoreL2(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive))
+        self.driverController.x().whileTrue(ReefScoreL3(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive))
+        self.driverController.y().whileTrue(ReefScoreL4(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive))
 
-        # self.driverController.a().onTrue(self.algae_down)
-        # self.driverController.b().onTrue(self.algae_up)
-        # self.driverController.x().onTrue(self.algae_outake)
-        # self.driverController.x().onFalse(self.algae_stoptake)
-        # self.driverController.y().whileTrue(WowImFull(self.robot_algae_score))
+        self.driverController.leftTrigger().onTrue(AlgaeIntake(self.robot_lift_please, self.robot_algae_score))
+        self.driverController.leftTrigger().onFalse(AlgaeRestore(self.robot_lift_please, self.robot_algae_score))
+        self.driverController.rightTrigger().onTrue(self.algae_outake)
+        self.driverController.rightTrigger().onFalse(self.algae_stoptake)
 
-        self.driverController.leftBumper().onTrue(self.joint_intake)
-        self.driverController.rightBumper().onTrue(self.joint_scorehigh)
-        self.driverController.leftTrigger().onTrue(self.grabber_grab)
-        self.driverController.rightTrigger().onTrue(self.grabber_full_release)
+        self.driverController.leftBumper().onTrue(ReefBludgeonHigh(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive)) # Algae Bludgeon
+        self.driverController.rightBumper().onTrue(ReefBludgeonLow(self.robot_lift_please, self.robot_joint_move, self.robot_grabber, self.robotDrive)) # Algae Bludgeon
+
+        self.driverController.start().onTrue(GrabberGrabReset(self.robot_grabber))
+        self.driverController.start().onFalse(self.grabber_stop)
+
+        # self.driverController.leftBumper().onTrue(GrabberGrabReset(self.robot_grabber))
+        # self.driverController.rightBumper().onTrue(GrabberToSetpoint(self.robot_grabber, GrabberConstants.setpoint_open, True))
         
         # self.driverController.a().onTrue(self.roller_grab)
         # self.driverController.a().onFalse(self.roller_stop)

@@ -16,7 +16,7 @@ class JointSubsystem(Subsystem):
             SparkMaxAbsoluteEncoder.Type.kDutyCycle
             )
         
-        # self.encoder.setInverted(True)
+        self.encoder.setInverted(True)
         
         self.PID_controller.setP(JointConstants.P)
         self.PID_controller.setI(JointConstants.I)

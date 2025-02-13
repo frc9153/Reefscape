@@ -148,11 +148,13 @@ class LiftConstants:
 
     # pls tune! :3 
     setpoint_store = 0.050
-    setpoint_intake = 0.100
     setpoint_l1 = 0.050
     setpoint_l2 = 0.075
     setpoint_l3 = 0.155
     setpoint_l4 = 0.250
+    setpoint_intake = 0.050 # UNTUNED
+    setpoint_bludgeon_low = 0.050 # UNTUNED
+    setpoint_bludgeon_high = 0.050 # UNTUNED
 
     P = 5
     I = 0
@@ -168,11 +170,13 @@ class JointConstants:
     max_speed_motor = 0.2
 
     # TUNE OR ELSE!!!!!!!!!
-    setpoint_intake = 0.600
+    setpoint_store = 0.600
     setpoint_scorel4 = 0.330
     setpoint_scorel3 = 0.445
     setpoint_scorel2 = 0.390
-    setpoint_scoretrough = 0 # UNIMPLEMENTED OPCODE
+    setpoint_intake = 0.330 # UNTUNED
+    setpoint_intake2 = 0.330 # UNTUNED
+    setpoint_bludgeon = 0.330 # UNTUNED
 
     P = 5
     I = 0
@@ -180,6 +184,8 @@ class JointConstants:
     i_zone = 0
     Ff = 0
     PIDEpsilon = 0.02
+
+    bludgeon_speed = 0.05
 
 class AlgaeConstants:
     motor_raise = 12
@@ -209,14 +215,17 @@ class GrabberConstants:
     max_speed_motor = 0.2
 
     # tuna or else...
-    setpoint_open = 0
     setpoint_closed = 0
+    setpoint_open = 0.2
+    setpoint_intake = 0.2
+    setpoint_intake2 = 0.2
 
     P = 5
     I = 0
     D = 0
     i_zone = 0
     Ff = 0
+    PIDEpsilon = 0.02
 
     hold_speed = 0.6
     release_speed = -0.1

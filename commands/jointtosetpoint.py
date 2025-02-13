@@ -1,7 +1,7 @@
 import commands2
 
 from constants import JointConstants
-from subsystems.liftsubsytem import LiftSubsystem
+from subsystems.jointsubsystem import JointSubsystem
 
 class JointToSetpoint(commands2.Command):
 

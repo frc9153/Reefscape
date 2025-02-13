@@ -7,24 +7,23 @@ from subsystems.grabbersubsystem import GrabberSubsystem
 from commands.lifttosetpoint import LiftToSetpoint
 from commands.jointtosetpoint import JointToSetpoint
 from commands.grabbertosetpoint import GrabberToSetpoint
+from commands.grabbergrabreset import GrabberGrabReset
+from commands.drivecommand import DriveCommand
 
-class ReefScoreL3(commands2.SequentialCommandGroup):
+class SourceRestore(commands2.SequentialCommandGroup):
     def __init__(self, liftsub, jointsub, grabbersub, robotDrive):
         super().__init__()
 
         self.liftsub = liftsub
         self.jointsub = jointsub
         self.grabbersub = grabbersub
-        self.robotDrive = robotDrive # Merely to interrupt driving
+        self.robotDrive = robotDrive
 
         # Cannot schedule same command twice
-        self.addCommands(JointToSetpoint(self.jointsub, JointConstants.setpoint_store),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_l3),
-                        JointToSetpoint(self.jointsub, JointConstants.setpoint_scorel3),
-                        GrabberToSetpoint(self.grabbersub, GrabberConstants.setpoint_open, True),
-                        JointToSetpoint(self.jointsub, JointConstants.setpoint_store),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_store)
-        )
+        self.addCommands(GrabberToSetpoint(self.grabbersub, GrabberConstants.setpoint_intake2, False),
+                        DriveCommand(self.robotDrive, 0.0, -0.1, 0.0, False).withTimeout(0.2),
+                        GrabberGrabReset(self.grabbersub),
+                        JointToSetpoint(self.jointsub, JointConstants.setpoint_store))
     
     # DO NOT ADD ANY OF THE FOLLOWING:
     #       Initialize

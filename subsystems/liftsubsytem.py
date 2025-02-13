@@ -55,6 +55,9 @@ class LiftSubsystem(Subsystem):
 
     def is_at_setpoint(self):
         return abs(self.setpoint - self.encoder.getPosition()) <= LiftConstants.PIDEpsilon
+    
+    def is_at_lowest(self):
+        return (self.setpoint == LiftConstants.setpoint_store)
 
     def periodic(self):
         pass
