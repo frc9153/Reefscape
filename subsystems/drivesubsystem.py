@@ -21,7 +21,7 @@ from .maxswervemodule import MAXSwerveModule
 
 
 class DriveSubsystem(Subsystem):
-    def __init__(self) -> None:
+    def __init__(self, gyro) -> None:
         super().__init__()
 
         # Create MAXSwerveModules
@@ -49,8 +49,9 @@ class DriveSubsystem(Subsystem):
             DriveConstants.kBackRightChassisAngularOffset,
         )
 
-        # The gyro sensor
-        self.gyro = navx.AHRS(wpilib.SPI.Port.kMXP)
+        # The gyro sensor 
+        # Uses TransformableGyro from robotcontainer
+        self.gyro = gyro
 
         # Slew rate filter variables for controlling lateral acceleration
         self.currentRotation = 0.0

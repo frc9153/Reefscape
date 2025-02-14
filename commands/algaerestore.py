@@ -8,19 +8,16 @@ from commands.lifttosetpoint import LiftToSetpoint
 from commands.algaetosetpoint import AlgaeToSetpoint
 
 class AlgaeRestore(commands2.SequentialCommandGroup):
-    def __init__(self, liftsub, algaesub):
+    def __init__(self, liftsub: LiftSubsystem, algaesub: AlgaeSubsystem):
         super().__init__()
-
-        self.liftsub = liftsub
-        self.algaesub = algaesub
 
         # Cannot schedule same command twice
 
-        if (self.liftsub.is_at_lowest()):
-            self.addCommands(LiftToSetpoint(self.liftsub, LiftConstants.setpoint_l2))
+        if (liftsub.is_at_lowest()):
+            self.addCommands(LiftToSetpoint(liftsub, LiftConstants.setpoint_l2))
 
-        self.addCommands(AlgaeToSetpoint(self.algaesub, AlgaeConstants.setpoint_up),
-                        LiftToSetpoint(self.liftsub, LiftConstants.setpoint_store))
+        self.addCommands(AlgaeToSetpoint(algaesub, AlgaeConstants.setpoint_up),
+                        LiftToSetpoint(liftsub, LiftConstants.setpoint_store))
     
     # DO NOT ADD ANY OF THE FOLLOWING:
     #       Initialize

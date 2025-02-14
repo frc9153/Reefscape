@@ -5,7 +5,7 @@ from subsystems.algaesubsystem import AlgaeSubsystem
 
 class AlgaeToSetpoint(commands2.Command):
 
-    def __init__(self, algaesub, setpoint):
+    def __init__(self, algaesub: AlgaeSubsystem, setpoint: float):
         self.algaesub = algaesub
         self.setpoint = setpoint
 

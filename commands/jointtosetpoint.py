@@ -5,7 +5,7 @@ from subsystems.jointsubsystem import JointSubsystem
 
 class JointToSetpoint(commands2.Command):
 
-    def __init__(self, jointsub, setpoint):
+    def __init__(self, jointsub: JointSubsystem, setpoint: float):
         self.jointsub = jointsub
         self.setpoint = setpoint
 

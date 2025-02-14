@@ -126,19 +126,33 @@ class OIConstants:
 
 
 class AutoConstants:
-    kMaxSpeedMetersPerSecond = 3
-    kMaxAccelerationMetersPerSecondSquared = 3
-    kMaxAngularSpeedRadiansPerSecond = math.pi
-    kMaxAngularSpeedRadiansPerSecondSquared = math.pi
+    # kMaxSpeedMetersPerSecond = 3
+    # kMaxAccelerationMetersPerSecondSquared = 3
+    # kMaxAngularSpeedRadiansPerSecond = math.pi
+    # kMaxAngularSpeedRadiansPerSecondSquared = math.pi
 
-    kPXController = 1
-    kPYController = 1
-    kPThetaController = 1
+    # kPXController = 1
+    # kPYController = 1
+    # kPThetaController = 1
 
-    # Constraint for the motion profiled robot angle controller
-    kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
-        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared
-    )
+    # # Constraint for the motion profiled robot angle controller
+    # kThetaControllerConstraints = TrapezoidProfileRadians.Constraints(
+    #     kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared
+    # )
+
+    left_routine = -1
+    center_routine = 0
+    right_routine = 1
+    
+    left_side = -1
+    right_side = 1
+
+    robot_speed = 0.3 # UNTUNED
+    power_time_per_inch = 0.1 # UNTUNED
+
+    # All in inches
+    mobility_dist = 12 # UNTUNED
+    reef_dist = [48, 24, 48] # Left, Center, Right  UNTUNED
 
 class LiftConstants:
     motor_one = 9
@@ -231,12 +245,19 @@ class GrabberConstants:
     release_speed = -0.1
     stop_speed = 0.0
     
-class RollerConstants:
-    motor_id = 15
+# class RollerConstants:
+#     motor_id = 15
 
-    intake_speed = -0.3
-    outake_speed = 0.6
-    stoptake_speed = 0
+#     intake_speed = -0.3
+#     outake_speed = 0.6
+#     stoptake_speed = 0
 
 class HeatSeekingMissileLockheedMartinConstants:
+    offset_reef_left = 0 # UNTUNED
+    offset_reef_right = 0 # UNTUNED
+    offset_reef_center = 0
+    offset_source = 0 # UNTUNED
+
+    offsets = [offset_reef_left, offset_reef_center, offset_reef_right]
+
     apriltag_position_threshold = 0.1

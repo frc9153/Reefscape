@@ -5,7 +5,7 @@ from subsystems.algaesubsystem import AlgaeSubsystem
 from rev import CANSparkMax, SparkMaxAbsoluteEncoder, CANSparkLowLevel
 
 class WowImFull(commands2.Command):
-    def __init__(self, algaesub):
+    def __init__(self, algaesub: AlgaeSubsystem):
         super().__init__()
 
         self.algaesub = algaesub

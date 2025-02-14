@@ -5,7 +5,7 @@ from subsystems.liftsubsytem import LiftSubsystem
 
 class LiftToSetpoint(commands2.Command):
 
-    def __init__(self, liftsub, setpoint):
+    def __init__(self, liftsub: LiftSubsystem, setpoint: float):
         self.liftsub = liftsub
         self.setpoint = setpoint
 

@@ -5,7 +5,7 @@ from subsystems.grabbersubsystem import GrabberSubsystem
 
 class GrabberToSetpoint(commands2.Command):
 
-    def __init__(self, grabbersub, setpoint, instant):
+    def __init__(self, grabbersub: GrabberSubsystem, setpoint: float, instant: bool):
         self.grabbersub = grabbersub
         self.setpoint = setpoint
         self.instant = instant
